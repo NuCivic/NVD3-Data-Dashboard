@@ -12,7 +12,13 @@ Data rendering librariesLibraries include:
 * [relineViewNvd3]() --
 
 ## Getting started
-@@TODO instructions for a Hello World app...
+* ``` git clone git@github.com:starsinmypockets/NVD3-Data-Dashboard.git /path/to/dash ```
+* ``` cd /path/to/dash/ ```
+* ``` git checkout withLibs ```
+* ``` cd docroot/lib/recline.view.nvd3.js ```
+* ``` bower install ```
+* Point webserver at ```/path/to/dash/docroot```
+* Start developing!!!!!
 
 ## TODO
 Plenty to do. Includes:
