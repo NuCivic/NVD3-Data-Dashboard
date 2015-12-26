@@ -29,8 +29,8 @@ requirejs.config({
 	},
 	paths : {
 		'jquery' : 'lib/jquery',
-		'rv3' : 'lib/recline.view.nvd3.paul.js/src/recline.view.nvd3.base',
-		'pieChart' : 'lib/recline.view.nvd3.paul.js/src/recline.view.nvd3.pieChart',
+		'rv3' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.base',
+		'pieChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.pieChart',
 		'recline' : 'lib/recline',
 		'underscore' : 'lib/underscore',
 		'backbone' : 'lib/backbone',
