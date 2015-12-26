@@ -1,18 +1,26 @@
 # DATA DASHBOARD
-
+[UNDER CONSTRUCTION]
 
 ## Description
-This is an requirejs / backbonejs app framework that leverages a set of JS libraries for rendering complex and related datasets as charts and graphs.
+A requirejs / backbonejs app framework that leverages a set of JS libraries for rendering complex and related datasets as charts and graphs.
 
-Data rendering librariesLibraries include:
+Libraries include:
 
-* [d3]() -- short desc
-* [nvd3]() --
-* [recline]() --
-* [relineViewNvd3]() --
+* [d3]()
+* [nvd3](http://nvd3.org)
+* [recline](http://okfnlabs.org/recline/)
+* [relineViewNvd3](https://github.com/NuCivic/recline.view.nvd3.js)
+* [reactNvd3](https://github.com/NuCivic/react-nvd3/blob/master/dist/react-nvd3.js) @@TODO
 
 ## Getting started
-@@TODO instructions for a Hello World app...
+* Clone this repository
+* Navigate to 
+
+## Setting up views
+
+## Setting up react components
+
+## Setting up new models
 
 ## TODO
 Plenty to do. Includes:
