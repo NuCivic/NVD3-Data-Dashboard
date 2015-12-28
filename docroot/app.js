@@ -117,6 +117,5 @@ var pieChart = new pieChart({
 
 pieChart.render();  
 console.log("App - final", state, rv3, pieChart);
-Backbone.history.navigate('#dash1');
 });
 
