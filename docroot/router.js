@@ -22,7 +22,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 			var self = this;
 			require(['views/dashCompViews'], function (Views) {
 				console.log("q", self.urlDecodeParams(self.parseQueryString(queryString)));
-				var params = self.parseQueryString(queryString);
+				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
 				var View = new Views.dashCompView({q : params, model : model});
 				View.render();
