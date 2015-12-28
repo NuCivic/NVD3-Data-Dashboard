@@ -42,7 +42,7 @@ requirejs.config({
 	}
 });
 
-require(['recline', 'rv3', 'pieChart'], function (recline, rv3, pieChart) {
+require(['recline', 'rv3', 'pieChart', 'router'], function (recline, rv3, pieChart) {
 
 function demoFieldAsSeries() {
   var dataset = new recline.Model.Dataset({
@@ -117,5 +117,6 @@ var pieChart = new pieChart({
 
 pieChart.render();  
 console.log("App - final", state, rv3, pieChart);
-
+Backbone.history.navigate('#dash1');
 });
+
