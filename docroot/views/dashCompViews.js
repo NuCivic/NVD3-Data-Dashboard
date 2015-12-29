@@ -2,7 +2,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
   var Views = {};
   var compView = BaseViews.baseView.extend({
     initialize : function (opts) {
-      this.$el = $("#dashContainer");
+      this.$el = $("#region-main");
       console.log("[compView]", opts);
       this._init(opts);
       console.log('init dcview', this.model.fetch);
@@ -12,13 +12,22 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     render : function () {
       var self = this;
       console.log("[compView] RENDER");
-    var discreteBar = new MultiBarHorizontalChart({
-      model: self.model,
-      state: self.state,
-      el: $('#dashContainer')
-    });
-    discreteBar.render();
+      if (self.states.length > 0) self.renderCharts();
 //    nv.utils.windowResize(discreteBar.update);
+    },
+
+    renderCharts : function () {
+      var self = this;
+      self.states.forEach(function (state, i) {
+        console.log("dcv_charts ",state, i);
+        self.$el.append('<div class="nvd3-dash-bar-chart" id="bar-chart-'+i+'"></div>');
+        var discreteBar = new MultiBarHorizontalChart({
+          model: self.model,
+          state: state,
+          el: $('#bar-chart-'+i)
+        });
+        discreteBar.render();
+      });
     }
   });
   Views.dashCompView = compView;
