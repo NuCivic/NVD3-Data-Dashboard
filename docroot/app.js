@@ -12,8 +12,9 @@ requirejs.config({
     },
   	'recline' : {
 			exports : 'recline',
-			deps : ['underscore', 'backbone', 'jquery']
+			deps : ['underscore', 'backbone', 'jquery', 'recline.backends.gdocs']
 		},
+    'recline.backends.gdocs' : { deps : ['jquery'] },
 		'underscore' : {
 			exports : '_'
 		},
@@ -36,6 +37,7 @@ requirejs.config({
 		'pieChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.pieChart',
 		'multiBarHorizontalChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.multiBarHorizontalChart',
     'recline' : 'lib/recline',
+    'recline.backends.gdocs' : 'lib/recline_backends/backend.gdocs',
 		'underscore' : 'lib/underscore',
 		'backbone' : 'lib/backbone',
 		'd3' : 'lib/d3.min',
