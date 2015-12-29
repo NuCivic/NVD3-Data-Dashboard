@@ -1,4 +1,4 @@
-define(['rv3', 'lodash'], function (Base, _) {⏎
+define(['rv3', 'lodash'], function (Base, _) {
     var multiBarHorizontalChart = Base.extend({
     initialize: function(options) {
       var self = this;
