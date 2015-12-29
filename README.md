@@ -13,14 +13,13 @@ Libraries include:
 * [reactNvd3](https://github.com/NuCivic/react-nvd3/blob/master/dist/react-nvd3.js) @@TODO
 
 ## Getting started
-* Clone this repository
-* Navigate to 
-
-## Setting up views
-
-## Setting up react components
-
-## Setting up new models
+* ``` git clone git@github.com:starsinmypockets/NVD3-Data-Dashboard.git /path/to/dash ```
+* ``` cd /path/to/dash/ ```
+* ``` git checkout withLibs ```
+* ``` cd docroot/lib/recline.view.nvd3.js ```
+* ``` bower install ```
+* Point webserver at ```/path/to/dash/docroot```
+* Start developing!!!!!
 
 ## TODO
 Plenty to do. Includes:
