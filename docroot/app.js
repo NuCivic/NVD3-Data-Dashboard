@@ -6,7 +6,10 @@ requirejs.config({
 		},
 		'pieChart' : {
 			deps : ['rv3']
-		},	
+		},
+    'multiBarHorizontalChart' : {
+      deps : ['rv3']
+    },
   	'recline' : {
 			exports : 'recline',
 			deps : ['underscore', 'backbone', 'jquery']
@@ -31,7 +34,8 @@ requirejs.config({
 		'jquery' : 'lib/jquery',
 		'rv3' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.base',
 		'pieChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.pieChart',
-		'recline' : 'lib/recline',
+		'multiBarHorizontalChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.multiBarHorizontalChart',
+    'recline' : 'lib/recline',
 		'underscore' : 'lib/underscore',
 		'backbone' : 'lib/backbone',
 		'd3' : 'lib/d3.min',

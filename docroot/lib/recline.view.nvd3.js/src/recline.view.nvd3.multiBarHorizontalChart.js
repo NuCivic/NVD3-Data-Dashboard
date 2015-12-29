@@ -1,21 +1,14 @@
-/*jshint multistr:true */
-
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
-
-;(function ($, my) {
-  'use strict';
-
-  my.multiBarHorizontalChart = recline.View.nvd3.Base.extend({
+define(['rv3', 'lodash'], function (Base, _) {⏎
+    var multiBarHorizontalChart = Base.extend({
     initialize: function(options) {
       var self = this;
       self.graphType = 'multiBarHorizontalChart';
-      recline.View.nvd3.Base.prototype.initialize.call(self, options);
+      Base.prototype.initialize.call(self, options);
       self.state.set('computeXLabels', false);
     },
     render: function(){
       var self = this;
-      recline.View.nvd3.Base.prototype.render.call(self, {});
+      Base.prototype.render.call(self, {});
     },
     getDefaults: function(){
       return {
@@ -26,5 +19,5 @@ this.recline.View = this.recline.View || {};
       };
     }
   });
-
-})(jQuery, recline.View.nvd3);
+  return multiBarHorizontalChart;
+});

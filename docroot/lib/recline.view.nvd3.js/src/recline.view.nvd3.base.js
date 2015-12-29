@@ -1,5 +1,5 @@
 'use strict';
-define(['recline', 'backbone', 'lodash', 'd3', 'mustache', 'nvd3'], function (recline, Backbone, _, d3, Mustache, nv) {
+define(['recline', 'backbone', 'lodash', 'd3', 'nvd3'], function (recline, Backbone, _, d3, nv) {
   var DEFAULT_CHART_WIDTH = 640;
   var DEFAULT_CHART_HEIGHT = 480;
   var MAX_ROW_NUM = 1000;
