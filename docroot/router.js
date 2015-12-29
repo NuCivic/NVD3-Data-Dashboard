@@ -21,10 +21,22 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 		getCompDash : function (queryString) {
 			var self = this;
 			require(['views/dashCompViews'], function (Views) {
-				console.log("q", self.urlDecodeParams(self.parseQueryString(queryString)));
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
+        console.log("params", params);
         var model = new Recline.Model.Dataset(params);
-				var View = new Views.dashCompView({q : params, model : model});
+        var state = new Recline.Model.ObjectState({
+          xfield: 'schoolname',
+          seriesFields: ['schooltotalstudents'],
+          group: true,
+          options: {
+            showValues: true,
+            tooltips: false,
+            showControls: false,
+            stacked: true,
+            margin: {top: 30, right: 20, bottom: 50, left: 250},
+          }
+        });
+				var View = new Views.dashCompView({q : params, model : model, state: state});
 				View.render();
 				console.log('getDash', params);
 			});

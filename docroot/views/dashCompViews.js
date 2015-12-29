@@ -1,25 +1,24 @@
-define(['backbone', 'views/baseViews', 'jquery', 'recline'], function (Backbone, BaseViews, $, Recline) {
+define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalChart'], function (Backbone, BaseViews, $, Recline, MultiBarHorizontalChart) {
   var Views = {};
   var compView = BaseViews.baseView.extend({
     initialize : function (opts) {
       this.$el = $("#dashContainer");
       console.log("[compView]", opts);
       this._init(opts);
+      console.log('init dcview', this.model.fetch);
+      this.model.fetch();
     },
 
     render : function () {
+      var self = this;
       console.log("[compView] RENDER");
-      var graph = new Recline.View.Graph({
-        model: this.model,
-        state: {
-          graphType: "columns",
-          group: "schoolname",
-          series: ["schooltotalstudents"]
-        }
-      });
-      this.$el.append(graph.el);
-      graph.render();
-      graph.redraw();
+    var discreteBar = new MultiBarHorizontalChart({
+      model: self.model,
+      state: self.state,
+      el: $('#dashContainer')
+    });
+    discreteBar.render();
+//    nv.utils.windowResize(discreteBar.update);
     }
   });
   Views.dashCompView = compView;
