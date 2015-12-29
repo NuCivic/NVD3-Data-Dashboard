@@ -1,16 +1,15 @@
 requirejs.config({
   shim : {
 		'rv3' : {
-			deps : ['recline', 'backbone', 'd3', 'lodash', 'lodash.data', 'mustache'],
+			deps : ['recline', 'backbone', 'd3', 'lodash', 'lodash.data'],
 			exports : 'rv3'
 		},
-//    'mustache' : { exports : 'Mustache' },
 		'pieChart' : {
 			deps : ['rv3']
 		},	
   	'recline' : {
 			exports : 'recline',
-			deps : ['underscore', 'backbone', 'jquery', 'mustache']
+			deps : ['underscore', 'backbone', 'jquery']
 		},
 		'underscore' : {
 			exports : '_'
@@ -38,7 +37,6 @@ requirejs.config({
 		'd3' : 'lib/d3.min',
 		'lodash' : 'lib/lodash',
 		'lodash.data' : 'lib/recline.view.nvd3.js/vendor/lodash.data/dist/lodash.data.min',
-		'mustache' : 'lib/mustache.min',
 		'nvd3' : 'lib/nvd3/build/nv.d3.min'
 	}
 });
