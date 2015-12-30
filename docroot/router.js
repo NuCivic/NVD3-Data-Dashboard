@@ -43,7 +43,11 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           });
           states.push(state);
         });
-				var View = new Views.dashCompView({q : params, model : model, states: states, title : "School Comparison Dashboard"});
+				var View = new Views.dashCompView({
+                          q : params,
+                          metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
+                          title : "School Comparison Dashboard"
+        });
 				View.render();
 				console.log('getDash', params);
 			});

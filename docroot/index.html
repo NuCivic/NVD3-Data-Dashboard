@@ -22,4 +22,11 @@
     <div id="dash-charts"></div>
 </script>
 
-
+<script type="text/template" id="chosen-select-widget">
+    <h3>Select <%= selectionType %></h3>
+    <select class="chosen-select" style="width: 100%" id="search-select" multiple>
+        <% _.each(choices, function (choice) { %>
+            <option value="<%= choice.uuid %>" data-uuid="<%= choice.uuid %>"><%= choice.name %></choice>
+        <% }); %>
+    </select>
+</script>

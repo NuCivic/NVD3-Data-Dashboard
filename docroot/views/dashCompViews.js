@@ -6,14 +6,14 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       this.tpl = '#dash-template';
       console.log("[compView]", opts);
       this._init(opts);
-      console.log('init dcview', this.model.fetch);
-      this.model.fetch();
+//      this.model.fetch();
     },
 
     render : function () {
       var self = this;
       console.log("[compView] RENDER");
       this.template({title : self.title});
+      this.renderSelect();
 //      if (self.states.length > 0) self.renderCharts();
 //    nv.utils.windowResize(discreteBar.update);
     },
@@ -29,6 +29,14 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           el: $('#bar-chart-'+i)
         });
         discreteBar.render();
+      });
+    },
+
+    renderSelect : function (){
+      var self = this;
+      console.log('renderselect', this);
+      require(['views/selectView'], function (View) {
+        var selectView = new View({ selectionType : 'Schools', url : self.metaDataUrl});
       });
     }
   });
