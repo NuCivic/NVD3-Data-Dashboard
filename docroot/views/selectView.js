@@ -23,11 +23,14 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     render : function () {
-      var choices = this.model.get('schools');
-      console.log('choices', choices);
-      this.$el.html = this.template({ selectionType : this.selectionType, choices : choices });
-      // render using this.choices
-    }
+      var self = this;
+      require(['chosenSelect'], function () {
+        var choices = self.model.get('schools');
+        console.log('choices', choices);
+        self.$el.html = self.template({ selectionType : self.selectionType, choices : choices });
+        this.$(".chosen-select").chosen(); 
+     });
+   }
   });
   
   return selectView;
