@@ -43,7 +43,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           });
           states.push(state);
         });
-				var View = new Views.dashCompView({q : params, model : model, states: states});
+				var View = new Views.dashCompView({q : params, model : model, states: states, title : "School Comparison Dashboard"});
 				View.render();
 				console.log('getDash', params);
 			});
@@ -95,4 +95,6 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 	console.log('router', Router, AppRouter);
   Backbone.history.start();
+}, function (err) {
+  console.log("[router]ERR", err);
 });

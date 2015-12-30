@@ -3,6 +3,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
   var compView = BaseViews.baseView.extend({
     initialize : function (opts) {
       this.$el = $("#region-main");
+      this.tpl = '#dash-template';
       console.log("[compView]", opts);
       this._init(opts);
       console.log('init dcview', this.model.fetch);
@@ -12,7 +13,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     render : function () {
       var self = this;
       console.log("[compView] RENDER");
-      if (self.states.length > 0) self.renderCharts();
+      this.template({title : self.title});
+//      if (self.states.length > 0) self.renderCharts();
 //    nv.utils.windowResize(discreteBar.update);
     },
 
