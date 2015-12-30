@@ -6,7 +6,16 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       this.tpl = '#dash-template';
       console.log("[compView]", opts);
       this._init(opts);
+      _.bindAll('updateDash');
 //      this.model.fetch();
+    },
+    events : {
+      "change select":  "updateDash"
+    },
+
+    updateDash : function (e) {
+      this.uids = this.$(e.target).val();
+      console.log('[dcv]update dash', e, this.uids);
     },
 
     render : function () {
@@ -27,6 +36,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         success : function (res, model) {
           console.log("[selectView] fetch", res, model);
           self.renderSelect(choiceModel.get('schools')); // success
+          self.delegateEvents();
          }
       });
     },
