@@ -15,16 +15,19 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     updateDash : function (e) {
+      var self = this;
       this.uuids = this.$(e.target).val();
       console.log('[dcv]update dash', e, this.uuids);
-      this.loadModels();
+      this.loadModels(function () {
+        self.getDataset();
+      });
     },
 
-    loadModels : function () {
+    loadModels : function (fn) {
       self = this;
       console.log('load models');
       this.schools = [];
-      _.each(this.uuids, function (uuid) {
+      _.each(this.uuids, function (uuid, i) {
         var school = new Backbone.Model({url : self.schoolBaseUrl + 'uuid'});
         console.log('dcv lm', school);
         school.url = self.schoolBaseUrl + uuid;
@@ -33,9 +36,19 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
             self.schools.push(model.get('schools')[0]);
             console.log('schools', self.schools);
             console.log('school fetch success', res, model);
+            // keep track of how many models we got
+              console.log('>>>',i ,self.uuids.length - 1)
+            if (i === self.uuids.length - 1) {
+              fn();
+            }
           }
         });
       });
+    },
+
+    getDataset : function () {
+      this.dataset = new Recline.Model.Dataset({ records : this.schools });
+      console.log("[dcv]dataset", this.schools, this.dataset);
     },
 
     render : function () {
