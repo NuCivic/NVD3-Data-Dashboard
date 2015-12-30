@@ -4,6 +4,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     initialize : function (opts) {
       this.$el = $("#region-main");
       this.tpl = '#dash-template';
+      this.schoolBaseUrl = 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=';
       console.log("[compView]", opts);
       this._init(opts);
       _.bindAll('updateDash');
@@ -14,8 +15,27 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     updateDash : function (e) {
-      this.uids = this.$(e.target).val();
-      console.log('[dcv]update dash', e, this.uids);
+      this.uuids = this.$(e.target).val();
+      console.log('[dcv]update dash', e, this.uuids);
+      this.loadModels();
+    },
+
+    loadModels : function () {
+      self = this;
+      console.log('load models');
+      this.schools = [];
+      _.each(this.uuids, function (uuid) {
+        var school = new Backbone.Model({url : self.schoolBaseUrl + 'uuid'});
+        console.log('dcv lm', school);
+        school.url = self.schoolBaseUrl + uuid;
+        school.fetch({
+          success : function (model, res) {
+            self.schools.push(model.get('schools')[0]);
+            console.log('schools', self.schools);
+            console.log('school fetch success', res, model);
+          }
+        });
+      });
     },
 
     render : function () {
