@@ -1,4 +1,4 @@
-define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalChart'], function (Backbone, BaseViews, $, Recline, MultiBarHorizontalChart) {
+define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalChart', 'nvd3'], function (Backbone, BaseViews, $, Recline, MultiBarHorizontalChart, NV) {
   var Views = {};
   var compView = BaseViews.baseView.extend({
     initialize : function (opts) {
@@ -26,6 +26,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     loadModels : function (fn) {
       self = this;
+      var j=0;
       console.log('load models');
       this.schools = [];
       _.each(this.uuids, function (uuid, i) {
@@ -34,14 +35,20 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         school.url = self.schoolBaseUrl + uuid;
         school.fetch({
           success : function (model, res) {
+            if (model.get('schools')[0].errors) {
+              console.log('error retrieveing school', model.get('schools')[0].errors);
+              alert('Error retrieving school: ', model.get('schools')[0].errors);
+              return;
+            }
             self.schools.push(model.get('schools')[0]);
             console.log('schools', self.schools);
             console.log('school fetch success', res, model);
             // keep track of how many models we got
-              console.log('>>>',i ,self.uuids.length - 1)
-            if (i === self.uuids.length - 1) {
+              console.log('>>>',i ,self.uuids.length - 1, j)
+            if (j === self.uuids.length - 1) {
               fn();
             }
+            j++;
           }
         });
       });
@@ -57,8 +64,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       console.log("[compView] RENDER");
       this.template({title : self.title});
       this.loadSelect();
-//      if (self.states.length > 0) self.renderCharts();
-//    nv.utils.windowResize(discreteBar.update);
     },
 
     loadSelect : function () {
@@ -78,7 +83,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     renderCharts : function () {
       var self = this;
       self.states.forEach(function (state, i) {
-        console.log("dcv_charts ",state, i);
+        //console.log("dcv_charts ",state, self.dataset, i);
         self.$el.append('<div class="nvd3-dash-bar-chart" id="bar-chart-'+i+'"></div>');
         var discreteBar = new MultiBarHorizontalChart({
           model: self.dataset,
@@ -86,6 +91,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           el: $('#bar-chart-'+i)
         });
         discreteBar.render();
+        NV.utils.windowResize(discreteBar.update);
       });
     },
 
