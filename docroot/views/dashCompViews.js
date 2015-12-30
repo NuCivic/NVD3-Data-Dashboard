@@ -13,9 +13,22 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       var self = this;
       console.log("[compView] RENDER");
       this.template({title : self.title});
-      this.renderSelect();
+      this.loadSelect();
 //      if (self.states.length > 0) self.renderCharts();
 //    nv.utils.windowResize(discreteBar.update);
+    },
+
+    loadSelect : function () {
+      var self = this;
+      console.log('[sv]load', this);
+      var choiceModel = new Backbone.Model();
+      choiceModel.url = this.metaDataUrl;
+      choiceModel.fetch({
+        success : function (res, model) {
+          console.log("[selectView] fetch", res, model);
+          self.renderSelect(choiceModel.get('schools')); // success
+         }
+      });
     },
 
     renderCharts : function () {
@@ -32,11 +45,11 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       });
     },
 
-    renderSelect : function (){
+    renderSelect : function (choices){
       var self = this;
       console.log('renderselect', this);
       require(['views/selectView'], function (View) {
-        var selectView = new View({ selectionType : 'Schools', url : self.metaDataUrl});
+        var selectView = new View({ selectionType : 'Schools', choices : choices});
       });
     }
   });
