@@ -20,6 +20,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       console.log('[dcv]update dash', e, this.uuids);
       this.loadModels(function () {
         self.getDataset();
+        self.renderCharts();
       });
     },
 
@@ -80,7 +81,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         console.log("dcv_charts ",state, i);
         self.$el.append('<div class="nvd3-dash-bar-chart" id="bar-chart-'+i+'"></div>');
         var discreteBar = new MultiBarHorizontalChart({
-          model: self.model,
+          model: self.dataset,
           state: state,
           el: $('#bar-chart-'+i)
         });

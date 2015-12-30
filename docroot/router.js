@@ -26,11 +26,11 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         console.log("params", params);
         var model = new Recline.Model.Dataset(params);
-        var seriesFields = ['schooltotalstudents', 'schooltotalstudents', 'schooltotalstudents', 'schooltotalstudents'];
+        var seriesFields = ['total_students', 'graduation_rate_boro', 'graduation_rate_2013', 'ontrack_year1_2013'];
         var states = [];
         seriesFields.forEach(function (field) {
           var state = new Recline.Model.ObjectState({
-            xfield: 'schoolname',
+            xfield: 'name',
             seriesFields: [field],
             group: true,
             options: {
@@ -38,7 +38,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
               tooltips: false,
               showControls: false,
               stacked: true,
-              margin: {top: 30, right: 20, bottom: 50, left: 250},
+              margin: {top: 30, right: 20, bottom: 50, left: 250}
             }
           });
           states.push(state);
@@ -46,7 +46,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 				var View = new Views.dashCompView({
                           q : params,
                           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
-                          title : "School Comparison Dashboard"
+                          title : "School Comparison Dashboard",
+                          states : states
         });
 				View.render();
 				console.log('getDash', params);
