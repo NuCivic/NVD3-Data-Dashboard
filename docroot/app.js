@@ -29,7 +29,8 @@ requirejs.config({
 		},
 		'nvd3' : {
 			exports : 'nv'
-		}
+		},
+    'chosenSelect' : { deps : ['jquery'] } 
 	},
 	paths : {
 		'jquery' : 'lib/jquery',
@@ -43,7 +44,8 @@ requirejs.config({
 		'd3' : 'lib/d3.min',
 		'lodash' : 'lib/lodash',
 		'lodash.data' : 'lib/recline.view.nvd3.js/vendor/lodash.data/dist/lodash.data.min',
-		'nvd3' : 'lib/nvd3/build/nv.d3.min'
+		'nvd3' : 'lib/nvd3/build/nv.d3.min',
+    'chosenSelect' : 'lib/chosen_v1.4.2/chosen.jquery.min'
 	}
 });
 
