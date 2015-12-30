@@ -26,7 +26,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         console.log("params", params);
         var model = new Recline.Model.Dataset(params);
-        var seriesFields = ['total_students', 'graduation_rate_boro', 'graduation_rate_2013', 'ontrack_year1_2013'];
+        var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count'];
         var states = [];
         seriesFields.forEach(function (field) {
           var state = new Recline.Model.ObjectState({
@@ -37,7 +37,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
               showValues: true,
               tooltips: false,
               showControls: false,
-              stacked: true,
+              stacked : true,
+              xRange: [0,100],
               margin: {top: 30, right: 20, bottom: 50, left: 250}
             }
           });
