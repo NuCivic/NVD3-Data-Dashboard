@@ -13,11 +13,6 @@
 define(['backbone', 'recline'], function (Backbone, Recline) {
 	console.log('[router] loaded 11');
 
-// Hack to force http for github pages
- var host = "starsinmypockets.github.io";
-if ((host == window.location.host) && (window.location.protocol === "https:"))
-    window.location.protocol = "http";
-    
   var Router = Backbone.Router.extend({
 		routes : {
 			'dash/comp/' : 'getCompDash' 
