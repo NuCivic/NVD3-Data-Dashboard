@@ -43,7 +43,7 @@ requirejs.config({
 		'backbone' : 'lib/backbone',
 		'd3' : 'lib/d3.min',
 		'lodash' : 'lib/lodash',
-		'lodash.data' : 'lib/recline.view.nvd3.js/vendor/lodash.data/dist/lodash.data.min',
+		'lodash.data' : 'lib/lodash.data.min',
 		'nvd3' : 'lib/nvd3/build/nv.d3.min',
     'chosenSelect' : 'lib/chosen_v1.4.2/chosen.jquery.min'
 	}
