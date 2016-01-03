@@ -13,7 +13,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 	console.log('[router] loaded 11');
   var Router = Backbone.Router.extend({
 		routes : {
-			'dash/comp/' : 'getCompDash' 
+			'dash/comp(/)' : 'getCompDash', 
+      '*path'        : 'getCompDash'
 		},
 
 //?backend=gdocs&url=https%3A%2F%2Fdocs.google.com%2Fspreadsheet%2Fccc%3Fkey%3D1R0_i_H-InRaQQK6_ECuenLeoAM2TH32edBPbue9c5Rc%23gid%3D0
