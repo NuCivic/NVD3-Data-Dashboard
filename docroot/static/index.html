@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Loading data from different sources using Backends - Tutorial - Recline Data Explorer and Library</title>
+
+  <link rel="stylesheet" href="vendor/bootstrap/3.2.0/css/bootstrap.css" />
+
+  <link rel="stylesheet" href="vendor/slickgrid/2.0.1/slick.grid.css">
+
+  <!-- Recline CSS components -->
+  <link rel="stylesheet" href="css/grid.css">
+  <link rel="stylesheet" href="css/slickgrid.css">
+  <link rel="stylesheet" href="css/multiview.css">
+  <!-- /Recline CSS components -->
+
+<!-- 3rd party JS libraries -->
+<script type="text/javascript" src="vendor/slickgrid/lib/jquery-1.7.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="vendor/csv.js/csv.js"></script>
+<script type="text/javascript" src="vendor/recline.backend.gdocs/backend.gdocs.js"></script>
+<script type="text/javascript" src="vendor/lodash/dist/lodash.compat.min.js"></script>
+<script type="text/javascript" src="vendor/lodash.data/dist/lodash.data.min.js"></script>
+<script type="text/javascript" src="vendor/backbone/backbone.js"></script>
+<script type="text/javascript" src="vendor/mustache/mustache.js"></script>
+<script type="text/javascript" src="vendor/bootstrap-css/js/bootstrap.js"></script>
+<script type="text/javascript" src="vendor/moment/moment.js"></script>
+
+<!--[if lte IE 7]>
+<script language="javascript" type="text/javascript" src="vendor/json/json2.js"></script>
+<![endif]-->
+
+
+<script src="http://okfnlabs.org/recline/dist/recline.js"></script>
+<script type="text/javascript" src="vendor/d3/d3.js"></script>
+<script type="text/javascript" src="vendor/nvd3/nv.d3.js"></script>
+<link rel="stylesheet" href="vendor/nvd3/nv.d3.css">
+
+
+</head>
+<body>
+
+<h2 id="loading-data-from-google-docs">Loading Data from Google Docs</h2>
+Google Doc url: 'https://docs.google.com/spreadsheet/ccc?key=1R0_i_H-InRaQQK6_ECuenLeoAM2TH32edBPbue9c5Rc#gid=0'
+
+<h3>Select Option</h3>
+<select class="chosen-select" style="width: 100%" id="search-select" multiple>
+  <option value=""></option>
+</select>
+<h3 id="result">Grid</h3>
+<div id="my-gdocs" class="doc-ex-rendered">&nbsp;</div>
+<div id="total-students">&nbsp;</div>
+<script type="text/javascript" src="http://okfnlabs.org/recline.backend.gdocs/backend.gdocs.js">&nbsp;</script>
+
+<script type="text/javascript" src="dist/recline.view.nvd3.min.js"></script>
+<script type="text/javascript" src="dist/recline.view.nvd3.controls.min.js"></script>
+
+<script type="text/javascript">
+var dataset = new recline.Model.Dataset({
+  //url: 'https://docs.google.com/spreadsheet/ccc?key=0Aon3JiuouxLUdGZPaUZsMjBxeGhfOWRlWm85MmV0UUE#gid=0',
+  url: 'https://docs.google.com/spreadsheet/ccc?key=1R0_i_H-InRaQQK6_ECuenLeoAM2TH32edBPbue9c5Rc#gid=0',
+  backend: 'gdocs'
+});
+
+console.log(dataset);
+var grid = new recline.View.Grid({
+  model: dataset
+});
+
+  var oneDimensionWithLabels = new recline.Model.ObjectState({
+    xfield: 'schoolname',
+    seriesFields: ['schooltotalstudents'],
+    group: true,
+    options: {
+      showValues: true,
+      tooltips: false,
+      showControls: false,
+      stacked: true,
+      margin: {top: 30, right: 20, bottom: 50, left: 250},
+    },
+  });
+
+
+  var discreteBar = new recline.View.nvd3.multiBarHorizontalChart({
+    model: dataset,
+    state: oneDimensionWithLabels,
+    el: $('#total-students')
+  });
+  discreteBar.render();
+  nv.utils.windowResize(discreteBar.update);
+
+$(".chosen-select").chosen();
+
+$('#my-gdocs').append(grid.el);
+
+// Now do the query to the backend to load data
+dataset.fetch().done(function(dataset) {
+  $.each(dataset.records.models, function(key, value) {
+    console.log();
+    $('#search-select')
+    .append($("<option></option>")
+    .attr("value",value.attributes.schoolid)
+    .text(value.attributes.schoolname));
+  });
+  $("#search-select").trigger("chosen:updated");
+  $("#search-select").width("300");
+  if (console) {
+    console.log(dataset);
+  }
+});
+</script>
+
+</body>
+</html>
