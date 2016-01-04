@@ -86,6 +86,9 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 		getCompDash : function (queryString) {
 			var self = this;
+      var barColors = ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green',
+               'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red',
+               'silver', 'teal', 'white', 'yellow'];
 			require(['views/dashCompViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         console.log("params", params);
@@ -104,9 +107,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
              stacked : true,
 //            forceX : [0,109],
              margin: {top: 30, right: 20, bottom: 50, left: 250},
-             barColor: ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green',
-               'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red',
-               'silver', 'teal', 'white', 'yellow'],
+             barColor: barColors 
             }
           });
           states.push(state);
@@ -115,7 +116,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
                           q : params,
                           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
                           title : "School Comparison Dashboard",
-                          states : states
+                          states : states,
+                          barColors : barColors
         });
 				View.render();
 				console.log('getDash', params);

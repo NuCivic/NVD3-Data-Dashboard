@@ -21,6 +21,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       this.loadModels(function () {
         self.getDataset();
         self.renderCharts();
+        self.addSchoolLabelColors();
       });
     },
 
@@ -105,8 +106,22 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       require(['views/selectView'], function (View) {
         var selectView = new View({ selectionType : 'Schools', choices : choices});
       });
+    },
+
+    addSchoolLabelColors : function () {
+      var self = this;
+      console.log('addSchoolLabels', self.barColors);
+      _.each(this.$('.search-choice'), function (choice, i) {
+        var css = {
+          background : self.barColors[i] +' none',
+          color            : '#E2E8A0'
+        };
+        console.log(css);
+        $(choice).css(css);
+      });
     }
   });
+
   Views.dashCompView = compView;
   return Views;
 });
