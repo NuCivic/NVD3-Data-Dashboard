@@ -101,8 +101,11 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
              showControls: false,
              stacked : true,
 //            forceX : [0,109],
-             margin: {top: 30, right: 20, bottom: 50, left: 250}
-           }
+             margin: {top: 30, right: 20, bottom: 50, left: 250},
+             barColor: ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green',
+               'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red',
+               'silver', 'teal', 'white', 'yellow'],
+            }
           });
           states.push(state);
         });
