@@ -9,10 +9,8 @@
  *	});
  *
  **/
-
 define(['backbone', 'recline'], function (Backbone, Recline) {
 	console.log('[router] loaded 11');
-
   var Router = Backbone.Router.extend({
 		routes : {
 			'dash/comp(/)'  : 'getCompDash', 
@@ -41,6 +39,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           model: dataset
         });
 
+
         var oneDimensionWithLabels = new Recline.Model.ObjectState({
           xfield: 'schoolname',
           seriesFields: ['schooltotalstudents'],
@@ -50,6 +49,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             tooltips: false,
             showControls: false,
             stacked: true,
+            barColors: randColArray(10),
             margin: {top: 30, right: 20, bottom: 50, left: 250}
           }
         });
@@ -113,7 +113,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
         });
 				var View = new Views.dashCompView({
                           q : params,
-                          metaDataUrl : "//ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
+                          metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
                           title : "School Comparison Dashboard",
                           states : states
         });
@@ -171,3 +171,12 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 }, function (err) {
   console.log("[router]ERR", err);
 });
+
+
+function randColArray(n) {
+  var x= [];
+  for (i = 0; i++; i<n) {
+    x.push('#'+Math.floor(Math.random()*16777215).toString(16));
+  }
+ return x;
+}
