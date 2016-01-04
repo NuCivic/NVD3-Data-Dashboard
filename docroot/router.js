@@ -46,18 +46,32 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           states.push(state);
         });
 				var View = new Views.dashCompView({
-                          q : params,
-                          metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
-                          title : "School Comparison Dashboard",
-                          states : states,
-                          barColors : barColors
+          q : params,
+          metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
+          title : "School Comparison Dashboard",
+          states : states,
+          barColors : barColors,
+          $el : $("#region-main"),
+          tpl : '#dash-template',
+          apiBaseUrl : 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools='
         });
+
 				View.render();
-			});
+  		});
 		},
 
     detail : function (id) {
-      console.log('detail view', id);
+      require(['views/dashViews'], function (Views) {
+          console.log('detail view', id);
+            var View = new Views.detailView({
+            $el : $("#region-main"),
+            tpl : '#dash-detail-template',
+            apiBaseUrl : 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=',
+            itemId : id,
+            itemTitleField : 'name'
+          });
+          View.loadPage();
+      });
     },
 
     parseQueryString : function (str) {

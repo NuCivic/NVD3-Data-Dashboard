@@ -24,6 +24,13 @@
     <div id="dash-charts"></div>
 </script>
 
+<script type = "text/template" id="dash-detail-template"></div>
+    <h2><%= title %></h2>
+    <div class="dash-section" id="bar-chart-section">Bar Chart row here</div>
+    <div class="dash-section" id="pie-chart-section">Pie Chart row here</div>
+    <div class="dash-section dash-info-section" id="dash-detail-info-section">Text here</div>
+</script>
+
 <script type="text/template" id="chosen-select-widget">
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
     <h3>Select <%= selectionType %></h3>
@@ -33,3 +40,4 @@
         <% }); %>
     </select>
 </script>
+

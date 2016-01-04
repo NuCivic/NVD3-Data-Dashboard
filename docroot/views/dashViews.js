@@ -1,13 +1,12 @@
 define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalChart', 'nvd3'], function (Backbone, BaseViews, $, Recline, MultiBarHorizontalChart, NV) {
   var Views = {};
-  var compView = BaseViews.baseView.extend({
+  Views.compView = BaseViews.baseView.extend({
     initialize : function (opts) {
       this.$el = $("#region-main");
       this.tpl = '#dash-template';
       this.schoolBaseUrl = 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=';
       this._init(opts);
       _.bindAll('updateDash');
-//      this.model.fetch();
     },
     events : {
       "change select":  "updateDash"
@@ -106,6 +105,37 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     }
   });
 
-  Views.dashCompView = compView;
+  Views.detailView = BaseViews.baseView.extend({
+    initialize : function (opts) {
+      //umm...
+      console.log('detailView init', opts);
+      this._init(opts);
+    },
+
+    loadPage : function () {
+        var self = this;
+        var item = new Backbone.Model();
+        item.url = self.apiBaseUrl + self.itemId;
+        item.fetch({
+          success : function (model, res) {
+            console.log('fetch 0',model, res);
+            if (model.get('schools').length === 0) {
+              alert('Error retrieving school: ', model.get('schools')[0].errors);
+              return;
+            } else {
+              console.log('fetch detail', model, res);
+              self.title = model.get('schools')[0][self.itemTitleField];
+              self.render();
+            }
+          }
+        });
+    },
+
+    render : function () {
+        console.log('render', this)
+      var self = this;
+      this.$el.html(this.template(self));
+    }
+  });
   return Views;
 });
