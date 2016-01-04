@@ -82,6 +82,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     renderCharts : function () {
       var self = this;
+      var chartHight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
         //console.log("dcv_charts ",state, self.dataset, i);
         self.$el.append('<div class="nvd3-dash-bar-chart" id="bar-chart-'+i+'"></div>');
@@ -90,6 +91,9 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           state: state,
           el: $('#bar-chart-'+i)
         });
+        $('#bar-chart-'+i).css('height', chartHight + 'px');
+        $('#bar-chart-'+i).css('width', '80%');
+        $('#bar-chart-'+i).css('margin', '0 auto');
         discreteBar.render();
         NV.utils.windowResize(discreteBar.update);
       });
