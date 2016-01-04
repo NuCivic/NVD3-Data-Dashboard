@@ -86,9 +86,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 		getCompDash : function (queryString) {
 			var self = this;
-      var barColors = ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green',
-               'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red',
-               'silver', 'teal', 'white', 'yellow'];
+      var barColors = ['steelBlue', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'SeaGreen', 'peru'];
 			require(['views/dashCompViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         console.log("params", params);
