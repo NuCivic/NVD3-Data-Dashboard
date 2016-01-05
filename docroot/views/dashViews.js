@@ -4,7 +4,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     initialize : function (opts) {
       this.$el = $("#region-main");
       this.tpl = '#dash-template';
-      this.schoolBaseUrl = 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=';
       this._init(opts);
       _.bindAll('updateDash');
     },
@@ -25,11 +24,11 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     loadModels : function (fn) {
       self = this;
       var j=0;
-      this.schools = [];
+      this.items = [];
       _.each(this.uuids, function (uuid, i) {
-        var school = new Backbone.Model({url : self.schoolBaseUrl + 'uuid'});
-        school.url = self.schoolBaseUrl + uuid;
-        school.fetch({
+        var item = new Backbone.Model({url : self.apiBaseUrl + 'uuid'});
+        item.url = self.apiBaseUrl + uuid;
+        item.fetch({
           success : function (model, res) {
             if (model.get('schools').length == 0){
               alert('Error retrieving schools!');
@@ -38,7 +37,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
               alert('Error retrieving school: ', model.get('schools')[0].errors);
               return;
             }
-            self.schools.push(model.get('schools')[0]);
+            self.items.push(model.get('schools')[0]);
             // keep track of how many models we got
             if (j === self.uuids.length - 1) {
               fn();
@@ -50,7 +49,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     getDataset : function () {
-      this.dataset = new Recline.Model.Dataset({ records : this.schools });
+      console.log("ITEMS", this.items);
+      this.dataset = new Recline.Model.Dataset({ records : this.items });
     },
 
     render : function () {
@@ -94,7 +94,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           state: state,
           el: $('#bar-chart-'+i)
         });
-        $('#bar-chart-'+i).css('height', chartHight + 'px');
+        this.$('#bar-chart-'+i).css('height', chartHight + 'px');
         discreteBar.render();
         NV.utils.windowResize(discreteBar.update);
       });
@@ -103,7 +103,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     renderSelect : function (choices){
       var self = this;
       require(['views/selectView'], function (View) {
-        var selectView = new View({ selectionType : 'Schools', choices : choices});
+  var selectView = new View({ selectionType : 'Schools', choices : choices});
       });
     },
 
@@ -138,6 +138,10 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
               return;
             } else {
               console.log('fetch detail', model, res);
+              var records = [];
+              records.push(model.get('schools')[0]);
+              console.log("SCHOOLS", model.get('schools'), records);
+              self.dataset = new Recline.Model.Dataset({ records : records });
               self.model = model;
               self.title = model.get('schools')[0][self.itemTitleField];
               self.render();
@@ -147,11 +151,26 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     renderCompareCharts : function () {
-      var self = this;
-
-      _.each(self.compareCharts, function (chart) {
-        console.log("cmp", chart);
+      var self = this
+      _.each(self.compareCharts, function (chart, i) {
+      console.log('chart fields', chart.fields);
+      self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="compare-chart-'+i+'"></div>');
+        var state = new Recline.Model.ObjectState({
+          group : true,
+          xfield : 'name',
+          seriesFields: chart.fields,
+          options: { showValues: true, showControls : false }
+        });
+        console.log(self.model.toJSON(), self.dataset);
+        var discreteBar = new MultiBarHorizontalChart({
+          model: self.dataset,
+          state: state,
+          el: $('#compare-chart-'+i)
+        });
+        discreteBar.render();
+        NV.utils.windowResize(discreteBar.update);
       });
+
       this.$('#compare-charts-container').html("Render compare charts now: " + JSON.stringify(self.compareCharts));
     },
 
