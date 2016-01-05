@@ -1,5 +1,67 @@
 /**
  * NVD3-App App-Wide Stlyes
  **/
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
-body {background-color: #EDF7FA}
+body {
+  background-color: #F5F5F5;
+  font-family: 'Roboto', sans-serif;
+  color: #2C384B;
+}
+
+#dash-select .chosen-label {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+#dash-select .chosen-container {
+  display: inline-block;
+  width: 90% !important;
+  float: right;
+  font-size: 18px;
+}
+
+#dash-select .chosen-choices span {
+  color: #2C384B;
+  font-size: 18px;
+  margin-right: 15px;
+}
+
+#dash-select .chosen-choices input {
+  font-size: 18px;
+  height: 25px;
+}
+
+#dash-select .chosen-choices .search-choice {
+  padding: 9px;
+  border: none;
+  border-radius: 0;
+}
+
+#dash-select .chosen-choices .search-choice .search-choice-close {
+  top: 10px;
+}
+
+#region-main {
+  width: 80%;
+  margin: 0 auto;  
+}
+
+[class*='col-'] {
+  float: left;
+}
+
+.col-1-2 {
+  width: 50%;
+}
+
+.grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nvd3-dash-bar-chart {
+  margin: 0 auto;  
+}

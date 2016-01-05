@@ -9,8 +9,18 @@
 	</head>
 	<body>
             <div id="header"></div>
-            <div id="region-top"></div>
-            <div id="region-main"></div>
+            <div id="region-top">
+              <script type="text/template" id="chosen-select-widget">
+                <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+                <label class="chosen-label">Compare <%= selectionType %></label>
+                <select class="chosen-select" style="width: 100%" id="search-select" multiple>
+                    <% _.each(choices, function (choice) { %>
+                        <option value="<%= choice.uuid %>" data-uuid="<%= choice.uuid %>"><%= choice.name %></choice>
+                    <% }); %>
+                </select>
+              </script>
+            </div>
+            <div id="region-main" class="grid"></div>
             <div id="region-bottom"></div>
             <div id="my-gdocs"></div>
             <div id="footer"></div>
@@ -40,4 +50,3 @@
         <% }); %>
     </select>
 </script>
-

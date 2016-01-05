@@ -22,8 +22,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 		compare : function (queryString) {
 			var self = this;
-      var barColors = ['steelBlue', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'SeaGreen', 'peru'];
-			require(['views/dashViews'], function (Views) {
+      var barColors = ['#5BC0EB', '#FDE74C', '#9BC53D', '#E55934', '#FA7921'];
+			require(['views/dashCompViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
         var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count', 'graduation_rate_2014', 'ontrack_year1_2014'];
@@ -40,7 +40,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
              showControls: false,
              stacked : true,
              margin: {top: 30, right: 20, bottom: 50, left: 250},
-             barColor: barColors 
+             barColor: barColors
             }
           });
           states.push(state);
