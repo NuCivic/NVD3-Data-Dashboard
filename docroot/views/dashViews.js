@@ -76,7 +76,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       // Add 50px per school added to the chart.
       var chartHight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
-        //console.log("dcv_charts ",state, self.dataset, i);
         self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
         var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
@@ -135,10 +134,11 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           success : function (model, res) {
             console.log('fetch 0',model, res);
             if (model.get('schools').length === 0) {
-              alert('Error retrieving school: ', model.get('schools')[0].errors);
+              alert('Error retrieving school');
               return;
             } else {
               console.log('fetch detail', model, res);
+              self.model = model;
               self.title = model.get('schools')[0][self.itemTitleField];
               self.render();
             }
@@ -146,11 +146,32 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         });
     },
 
+    renderCompareCharts : function () {
+      var self = this;
+
+      _.each(self.compareCharts, function (chart) {
+        console.log("cmp", chart);
+      });
+      this.$('#compare-charts-container').html("Render compare charts now: " + JSON.stringify(self.compareCharts));
+    },
+
+    renderSummaryCharts : function () {
+       var self = this;
+
+      _.each(self.summaryCharts, function (chart) {
+        console.log("cmp", chart);
+      });
+      this.$('#summary-charts-container').html("Render summary charts now");
+    },
+
     render : function () {
-        console.log('render', this)
+      console.log('render', this);
       var self = this;
       this.$el.html(this.template(self));
+      self.renderCompareCharts();
+      self.renderSummaryCharts();
     }
   });
+
   return Views;
 });

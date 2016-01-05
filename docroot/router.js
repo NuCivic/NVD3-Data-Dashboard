@@ -23,7 +23,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 		compare : function (queryString) {
 			var self = this;
       var barColors = ['#5BC0EB', '#FDE74C', '#9BC53D', '#E55934', '#FA7921'];
-			require(['views/dashCompViews'], function (Views) {
+			require(['views/dashViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
         var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count', 'graduation_rate_2014', 'ontrack_year1_2014'];
@@ -45,7 +45,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           });
           states.push(state);
         });
-				var View = new Views.dashCompView({
+				var View = new Views.compView({
           q : params,
           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
           title : "School Comparison Dashboard",
@@ -66,9 +66,24 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             var View = new Views.detailView({
             $el : $("#region-main"),
             tpl : '#dash-detail-template',
+            // @confParam - base url for item query
             apiBaseUrl : 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=',
             itemId : id,
-            itemTitleField : 'name'
+            // @@confParam - string / the identifier for the record - used in  page title
+            itemTitleField : 'name',
+            // @@confParam - array of objects define compareCharts
+            compareCharts : [ 
+              {
+                title : 'GRAD RATE (4 Year)',
+                fields : [ 'graduation_rate_2013', 'graduation_rate_2014', 'graduation_rate_boro' ]
+              },
+              {
+                title : 'COLLEGE ENROLL (Or Career Programs)',
+                fields : [ 'college_career_rate_2013', 'college_career_rate_2014', 'college_career_rate_boro']
+              }
+            ],
+            // @@confParam = array of objects define sumnmaryCharts
+            summaryCharts : []
           });
           View.loadPage();
       });
