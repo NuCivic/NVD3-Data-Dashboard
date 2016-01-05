@@ -13,7 +13,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 	console.log('[router] loaded 11');
   var Router = Backbone.Router.extend({
 		routes : {
-			'dash/comp(/)'  : 'getCompDash', 
+			'dash/comp(/)'  : 'getCompDash',
       'static(/)'        : 'getStatic',
       '*path'         : 'getCompDash'
 		},
@@ -86,7 +86,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 		getCompDash : function (queryString) {
 			var self = this;
-      var barColors = ['steelBlue', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'SeaGreen', 'peru'];
+      var barColors = ['#5BC0EB', '#FDE74C', '#9BC53D', '#E55934', '#FA7921'];
 			require(['views/dashCompViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         console.log("params", params);
@@ -105,7 +105,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
              stacked : true,
 //            forceX : [0,109],
              margin: {top: 30, right: 20, bottom: 50, left: 250},
-             barColor: barColors 
+             barColor: barColors
             }
           });
           states.push(state);
