@@ -49,7 +49,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     getDataset : function () {
-      console.log("ITEMS", this.items);
       this.dataset = new Recline.Model.Dataset({ records : this.items });
     },
 
@@ -74,7 +73,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     renderCharts : function () {
       var self = this;
       // Add 50px per school added to the chart.
-      var chartHight = 150 + (self.dataset.recordCount - 1) * 50;
+      var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
         self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
@@ -94,7 +93,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           state: state,
           el: $('#bar-chart-'+i)
         });
-        this.$('#bar-chart-'+i).css('height', chartHight + 'px');
+        this.$('#bar-chart-'+i).css('height', chartHeight + 'px');
         discreteBar.render();
         NV.utils.windowResize(discreteBar.update);
       });
@@ -122,7 +121,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
   Views.detailView = BaseViews.baseView.extend({
     initialize : function (opts) {
       //umm...
-      console.log('detailView init', opts);
       this._init(opts);
     },
 
@@ -132,15 +130,12 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         item.url = self.apiBaseUrl + self.itemId;
         item.fetch({
           success : function (model, res) {
-            console.log('fetch 0',model, res);
             if (model.get('schools').length === 0) {
               alert('Error retrieving school');
               return;
             } else {
-              console.log('fetch detail', model, res);
               var records = [];
               records.push(model.get('schools')[0]);
-              console.log("SCHOOLS", model.get('schools'), records);
               self.dataset = new Recline.Model.Dataset({ records : records });
               self.model = model;
               self.title = model.get('schools')[0][self.itemTitleField];
@@ -151,40 +146,51 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     },
 
     renderCompareCharts : function () {
-      var self = this
+      var self = this;
+      var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
       _.each(self.compareCharts, function (chart, i) {
-      console.log('chart fields', chart.fields);
-      self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="compare-chart-'+i+'"></div>');
-        var state = new Recline.Model.ObjectState({
-          group : true,
-          xfield : 'name',
-          seriesFields: chart.fields,
-          options: { showValues: true, showControls : false }
-        });
-        console.log(self.model.toJSON(), self.dataset);
-        var discreteBar = new MultiBarHorizontalChart({
-          model: self.dataset,
-          state: state,
-          el: $('#compare-chart-'+i)
-        });
-        discreteBar.render();
-        NV.utils.windowResize(discreteBar.update);
+        self.$('#compare-charts-container').append('<div class="nvd3-dash-bar-chart col-1-2" id="compare-chart-'+i+'"></div>');
+
+      var state = new Recline.Model.ObjectState({
+        group : true,
+        xfield : 'name',
+        seriesFields: chart.fields,
+        options: { showValues: true, showControls : false }
       });
 
-      this.$('#compare-charts-container').html("Render compare charts now: " + JSON.stringify(self.compareCharts));
-    },
+      var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
+        getLayoutParams: function(){
+          var self = this;
+          var layout = {
+            columnClass: '',
+            width: self.state.get('width') || self.$el.innerWidth() || DEFAULT_CHART_WIDTH,
+            height: self.state.get('height') || DEFAULT_CHART_HEIGHT
+          };
+          return layout;
+        }
+      });
+
+      var discreteBar = new extendedMultiBarHorizontalChart({
+        model: self.dataset,
+        state: state,
+        el: $('#compare-chart-'+i)
+      });
+
+      discreteBar.render();
+      self.$('#compare-chart-'+i).css('height', chartHeight + 'px');
+      NV.utils.windowResize(discreteBar.update);
+    });
+
+  },
 
     renderSummaryCharts : function () {
        var self = this;
 
       _.each(self.summaryCharts, function (chart) {
-        console.log("cmp", chart);
       });
-      this.$('#summary-charts-container').html("Render summary charts now");
     },
 
     render : function () {
-      console.log('render', this);
       var self = this;
       this.$el.html(this.template(self));
       self.renderCompareCharts();
