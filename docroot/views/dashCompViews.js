@@ -83,18 +83,29 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     renderCharts : function () {
       var self = this;
+      // Add 50px per school added to the chart.
       var chartHight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
         //console.log("dcv_charts ",state, self.dataset, i);
-        self.$el.append('<div class="nvd3-dash-bar-chart" id="bar-chart-'+i+'"></div>');
-        var discreteBar = new MultiBarHorizontalChart({
+        self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
+        // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
+        var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
+          getLayoutParams: function(){
+            var self = this;
+            var layout = {
+              columnClass: '',
+              width: self.state.get('width') || self.$el.innerWidth() || DEFAULT_CHART_WIDTH,
+              height: self.state.get('height') || DEFAULT_CHART_HEIGHT
+            };
+            return layout;
+          }
+        });
+        var discreteBar = new extendedMultiBarHorizontalChart({
           model: self.dataset,
           state: state,
           el: $('#bar-chart-'+i)
         });
         $('#bar-chart-'+i).css('height', chartHight + 'px');
-        $('#bar-chart-'+i).css('width', '80%');
-        $('#bar-chart-'+i).css('margin', '0 auto');
         discreteBar.render();
         NV.utils.windowResize(discreteBar.update);
       });
