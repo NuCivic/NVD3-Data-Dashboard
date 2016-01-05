@@ -6,6 +6,7 @@
 body {
   background-color: #F5F5F5;
   font-family: 'Roboto', sans-serif;
+  color: #2C384B;
 }
 
 #dash-select .chosen-label {
@@ -22,7 +23,7 @@ body {
 }
 
 #dash-select .chosen-choices span {
-  color: black;
+  color: #2C384B;
   font-size: 18px;
   margin-right: 15px;
 }
