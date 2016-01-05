@@ -1,9 +1,11 @@
 /**
  * NVD3-App App-Wide Stlyes
  **/
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
 body {
-  background-color: #F5F5F5
+  background-color: #F5F5F5;
+  font-family: 'Roboto', sans-serif;
 }
 
 #dash-select .chosen-label {
