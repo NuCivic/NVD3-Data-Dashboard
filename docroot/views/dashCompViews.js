@@ -36,7 +36,10 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         school.url = self.schoolBaseUrl + uuid;
         school.fetch({
           success : function (model, res) {
-            if (model.get('schools')[0].errors) {
+            if (model.get('schools').length == 0){
+              alert('Error retrieving schools!');
+              return;
+            }else if (model.get('schools')[0].errors) {
               console.log('error retrieveing school', model.get('schools')[0].errors);
               alert('Error retrieving school: ', model.get('schools')[0].errors);
               return;
