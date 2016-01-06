@@ -75,7 +75,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       // Add 50px per school added to the chart.
       var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
-        self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
+        self.$('#dash-charts').append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
         var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
           getLayoutParams: function(){
