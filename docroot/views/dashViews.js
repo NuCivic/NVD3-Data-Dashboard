@@ -8,7 +8,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       _.bindAll('updateDash');
     },
     events : {
-      "change select":  "updateDash"
+      "change select":  "updateDash",
+      "click .chosen-choices .search-choice" : "navDetail"
     },
 
     updateDash : function (e) {
@@ -63,9 +64,11 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       var choiceModel = new Backbone.Model();
       choiceModel.url = this.metaDataUrl;
       choiceModel.fetch({
-        success : function (res, model) {
+        success : function (model, res) {
+          self.choices = model;
           self.renderSelect(choiceModel.get('schools')); // success
           self.delegateEvents();
+          self.addEventListeners();
          }
       });
     },
@@ -75,7 +78,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       // Add 50px per school added to the chart.
       var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
-        self.$('#dash-charts').append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
+        self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
         var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
           getLayoutParams: function(){
@@ -115,8 +118,31 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         };
         $(choice).css(css);
       });
-    }
-  });
+    },
+
+    addEventListeners : function () {
+      self = this;
+      console.log("addEventListeners");
+      $('body').click('.chosen-choices .search-choice', function (e) {
+      console.log('target', $(e.target));
+      if ($(e.target).is('span')) {
+          console.log($(e.target).text().trim());
+          e.preventDefault();
+          var choice = $(e.target).text().trim();
+          var choices = self.choices.get('schools');
+          var chosen = choices.filter(function ( obj ) {
+              return obj.name === choice;
+              })[0].uuid;
+         if (typeof chosen !== undefined) {
+           Backbone.history.navigate('#dash/detail/'+chosen, true);
+       }
+          console.log('clicck', chosen.uuid, choice, choices);
+        };
+      });
+    },
+
+
+});
 
   Views.detailView = BaseViews.baseView.extend({
     initialize : function (opts) {
@@ -222,7 +248,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       self.renderCompareCharts();
       self.renderSummaryCharts();
       self.renderInfoItems();
-    }
+    },
+    
   });
 
   return Views;
