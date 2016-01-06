@@ -24,6 +24,7 @@ define(['recline', 'backbone', 'lodash', 'd3', 'nvd3'], function (recline, Backb
       CLEANUP_CHARS: '%$¥€',
       initialize: function(options) {
         var self = this;
+        console.log('RV3', self);
         self.$el = $(self.el);
         self.options = _.defaults(options || {}, self.options);
 

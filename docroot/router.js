@@ -26,9 +26,12 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 			require(['views/dashViews'], function (Views) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
+        // @@ confParam - seriesFields - what fields do we want to compare
         var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count', 'graduation_rate_2014', 'ontrack_year1_2014'];
-        var states = [];
 
+        // @@todo - move this to the view!
+        var states = [];
+        
         seriesFields.forEach(function (field) {
           var state = new Recline.Model.ObjectState({
             xfield: 'name',
@@ -45,6 +48,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           });
           states.push(state);
         });
+
 				var View = new Views.compView({
           q : params,
           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
@@ -71,6 +75,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             itemId : id,
             // @@confParam - string / the identifier for the record - used in  page title
             itemTitleField : 'name',
+            // @@configParam - text / maybe we want to define topmatter?
+            topmatter : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             // @@confParam - array of objects define compareCharts
             compareCharts : [ 
               {
@@ -83,7 +89,28 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
               }
             ],
             // @@confParam = array of objects define sumnmaryCharts
-            summaryCharts : []
+            summaryCharts : [
+              {
+                title : '<span class="strong">Students feel safe</span> in the hallways, bathrooms, locker rooms, and cafeteria.',
+                fields: ['pct_stu_safe_2014']
+              },
+              {
+                title : '<span class="strong">Students feel their school offers enough variety</span> of programs, classes, and activities to keep them interested in school.',
+                fields: ['pct_stu_enough_variety_2014']
+              },
+           ],
+           infoItems : [
+            { field: 'quality_review_year',
+              title: 'Quality Review Year' },
+            { field: 'qr_teacher_collaboration',
+              title: 'Quality Review Collaboration' },
+           { field: 'qr_high_expectations',
+              title: 'Quality Review High Expectations' },
+           { field: 'qr_assessing_student_learning',
+              title: 'Quality Review Student Learning' },
+           { field: 'qr_instruction',
+              title: 'Quality Review Instruction' }
+          ]
           });
           View.loadPage();
       });

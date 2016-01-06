@@ -121,6 +121,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
   Views.detailView = BaseViews.baseView.extend({
     initialize : function (opts) {
       //umm...
+      console.log("[detail]", opts);
       this._init(opts);
     },
 
@@ -180,13 +181,38 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       self.$('#compare-chart-'+i).css('height', chartHeight + 'px');
       NV.utils.windowResize(discreteBar.update);
     });
-
   },
 
     renderSummaryCharts : function () {
-       var self = this;
+      var self = this;
+      require(['pieChart'], function (PieChart) {
+        self.summaryCharts.forEach(function (chart, i) {
+          self.$('#summary-charts-container').append('<div class="nvd3-dash-pie-chart col-1-2" id="summary-chart-'+i+'"></div>');
+          console.log('pie', self.dataset);
+          var state = new Recline.Model.ObjectState({
+            xfield : 'pct_stu_safe_2014',
+            seriesFields : ['pct_stu_safe_2014'], //chart.fields,
+              options : {donut : true}
+          });
+          var pieChart = new PieChart({
+            model : self.dataset,
+            state : state,
+            el : "#summary-chart-" + i
+          });
+          pieChart.render();
+          self.$('#summary-chart-' + i).append('<p>'+chart.title+'</p>');
+          NV.utils.windowResize(pieChart.update);
+        });  
+      });
+    },
 
-      _.each(self.summaryCharts, function (chart) {
+    renderInfoItems : function () {
+      var self = this;
+      self.infoItems.forEach(function (infoItem) {
+
+        console.log("I>>", $("#info-item-row").html(), infoItem);
+        var tpl = _.template($("#info-item-row").html());
+        self.$('.dash-info-section').append(tpl(infoItem));
       });
     },
 
@@ -195,6 +221,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       this.$el.html(this.template(self));
       self.renderCompareCharts();
       self.renderSummaryCharts();
+      self.renderInfoItems();
     }
   });
 
