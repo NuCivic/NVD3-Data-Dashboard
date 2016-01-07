@@ -48,20 +48,12 @@ body {
   margin: 0 auto;  
 }
 
-[class*='col-'] {
-  float: left;
+#dash-charts {
+   width: 100%;
 }
 
-.col-1-2 {
-  width: 50%;
-}
-
-.grid:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.nvd3-dash-bar-chart {
-  margin: 0 auto;  
+@media (min-width: 1024px) {
+  #summary-charts-container {
+    max-height: 400px;
+  }
 }

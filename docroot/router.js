@@ -27,23 +27,49 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
         // @@ confParam - seriesFields - what fields do we want to compare
-        var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count', 'graduation_rate_2014', 'ontrack_year1_2014'];
+        // Add userfriendly name.
+        var seriesFields = [
+          {
+            field: 'total_students',
+            human: 'TOT. STUDENTS',
+          },
+          {
+            field: 'extracurricular_count',
+            human: 'EXTRA. ACTIVITIES',
+          },
+          {
+            field: 'sports_count',
+            human: 'SPORTS',
+          },
+          {
+            field: 'courses_count',
+            human: 'AP COURSES',
+          },
+          {
+            field: 'graduation_rate_2014',
+            human: 'GRAD. RATE',
+          },
+          {
+            field: 'ontrack_year1_2014',
+            human: 'ON TRACK 2014',
+          },
+        ];
 
         // @@todo - move this to the view!
         var states = [];
-        
-        seriesFields.forEach(function (field) {
+
+        seriesFields.forEach(function (seriesField) {
           var state = new Recline.Model.ObjectState({
             xfield: 'name',
-            seriesFields: [field],
+            seriesFields: [seriesField.human],
             group: true,
             options: {
-             showValues: true,
-             tooltips: false,
-             showControls: false,
-             stacked : true,
-             margin: {top: 30, right: 20, bottom: 50, left: 250},
-             barColor: barColors
+              showXAxis: false,
+              showYAxis: true,
+              tooltips: false,
+              showControls: false,
+              stacked : true,
+              barColor: barColors,
             }
           });
           states.push(state);
@@ -53,6 +79,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           q : params,
           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
           title : "School Comparison Dashboard",
+          seriesFields : seriesFields,
           states : states,
           barColors : barColors,
           $el : $("#region-main"),
@@ -78,7 +105,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             // @@configParam - text / maybe we want to define topmatter?
             topmatter : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             // @@confParam - array of objects define compareCharts
-            compareCharts : [ 
+            compareCharts : [
               {
                 title : 'GRAD RATE (4 Year)',
                 fields : [ 'graduation_rate_2013', 'graduation_rate_2014', 'graduation_rate_boro' ]
@@ -91,11 +118,11 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             // @@confParam = array of objects define sumnmaryCharts
             summaryCharts : [
               {
-                title : '<span class="strong">Students feel safe</span> in the hallways, bathrooms, locker rooms, and cafeteria.',
+                title : 'Students feel safe in the hallways, bathrooms, locker rooms, and cafeteria.',
                 fields: ['pct_stu_safe_2014']
               },
               {
-                title : '<span class="strong">Students feel their school offers enough variety</span> of programs, classes, and activities to keep them interested in school.',
+                title : 'Students feel their school offers enough variety of programs, classes, and activities to keep them interested in school.',
                 fields: ['pct_stu_enough_variety_2014']
               },
            ],
@@ -119,7 +146,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
     parseQueryString : function (str) {
       return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
     },
-    
+
     urlDecodeParams : function (params) {
       var decoded = {}
       console.log("aa", params);
