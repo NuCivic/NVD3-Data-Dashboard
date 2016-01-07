@@ -78,9 +78,24 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       // Add 50px per school added to the chart.
       var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
       self.states.forEach(function (state, i) {
-        self.$el.append('<div class="nvd3-dash-bar-chart col-1-2" id="bar-chart-'+i+'"></div>');
+        // Add new elements only if they do not exists
+        if (!$('#bar-chart-'+i).length) {
+          self.$('#dash-charts').append('<div class="nvd3-dash-bar-chart col-xs-12 col-md-6" id="bar-chart-'+i+'"></div>');
+        }
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
         var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
+
+          template:'<div class="recline-graph recline-nvd3">' +
+                      '{{data}}' +
+                      '<div class="{{columnClass}} {{viewId}} recline-nvd3"style="display: block;">' +
+                        '<div id="{{viewId}}" class="recline-nvd3">' +
+                            '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' +
+                            ' height="{{height}}" width="{{width}}">' +
+                            '</svg>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div> ',
+
           getLayoutParams: function(){
             var self = this;
             var layout = {
@@ -91,6 +106,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
             return layout;
           }
         });
+
         var discreteBar = new extendedMultiBarHorizontalChart({
           model: self.dataset,
           state: state,
@@ -174,9 +190,13 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     renderCompareCharts : function () {
       var self = this;
-      var chartHeight = 150 + (self.dataset.recordCount - 1) * 50;
+      var chartHeight = 150 + (self.compareCharts.length - 1) * 50;
+
       _.each(self.compareCharts, function (chart, i) {
-        self.$('#compare-charts-container').append('<div class="nvd3-dash-bar-chart col-1-2" id="compare-chart-'+i+'"></div>');
+        // Add new elements only if they do not exists
+        if (!$('#compare-chart-'+i).length) {
+          self.$('#compare-charts-container').append('<div class="nvd3-dash-bar-chart col-xs-12 col-md-6" id="compare-chart-'+i+'"></div>');
+        }
 
       var state = new Recline.Model.ObjectState({
         group : true,
@@ -185,16 +205,29 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         options: { showValues: true, showControls : false }
       });
 
+      // Override the template and the default layout params.
       var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
-        getLayoutParams: function(){
-          var self = this;
-          var layout = {
-            columnClass: '',
-            width: self.state.get('width') || self.$el.innerWidth() || DEFAULT_CHART_WIDTH,
-            height: self.state.get('height') || DEFAULT_CHART_HEIGHT
-          };
-          return layout;
-        }
+
+            template:'<div class="recline-graph recline-nvd3">' +
+                        '{{data}}' +
+                        '<div class="{{columnClass}} {{viewId}} recline-nvd3"style="display: block;">' +
+                          '<div id="{{viewId}}" class="recline-nvd3">' +
+                              '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' +
+                              ' height="{{height}}" width="{{width}}">' +
+                              '</svg>' +
+                          '</div>' +
+                        '</div>' +
+                      '</div> ',
+
+              getLayoutParams: function(){
+                var self = this;
+                var layout = {
+                  columnClass: '',
+                  width: self.state.get('width') || self.$el.innerWidth() || DEFAULT_CHART_WIDTH,
+                  height: self.state.get('height') || DEFAULT_CHART_HEIGHT
+                };
+                return layout;
+              }
       });
 
       var discreteBar = new extendedMultiBarHorizontalChart({
@@ -212,23 +245,79 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     renderSummaryCharts : function () {
       var self = this;
       require(['pieChart'], function (PieChart) {
-        self.summaryCharts.forEach(function (chart, i) {
-          self.$('#summary-charts-container').append('<div class="nvd3-dash-pie-chart col-1-2" id="summary-chart-'+i+'"></div>');
+        self.summaryCharts.forEach(function (summaryChart, i) {
+
+          self.$('#summary-charts-container').append('<div class="nvd3-dash-pie-chart col-xs-12 col-md-6" id="summary-chart-'+i+'"></div>');
           console.log('pie', self.dataset);
+
           var state = new Recline.Model.ObjectState({
             xfield : 'pct_stu_safe_2014',
             seriesFields : ['pct_stu_safe_2014'], //chart.fields,
-              options : {donut : true}
+            options : {
+              donut : true,
+              showLegend: false,
+              showLabels: true,
+              labelType: 'key',
+              labelsOutside: true,
+              //title: summaryChart.title,
+              //titleOffset: 200,
+              tooltips: false,
+            }
           });
-          var pieChart = new PieChart({
-            model : self.dataset,
-            state : state,
-            el : "#summary-chart-" + i
-          });
-          pieChart.render();
-          self.$('#summary-chart-' + i).append('<p>'+chart.title+'</p>');
-          NV.utils.windowResize(pieChart.update);
-        });  
+
+
+      var extendedPieChart = PieChart.extend({
+
+            template:'<div class="recline-graph recline-nvd3">' +
+                        '{{data}}' +
+                        '<div class="{{columnClass}} {{viewId}} recline-nvd3"style="display: block;">' +
+                          '<div id="{{viewId}}" class="recline-nvd3">' +
+                              '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' +
+                              ' height="{{height}}" width="{{width}}">' +
+                              '</svg>' +
+                          '</div>' +
+                        '</div>' +
+                      '</div> ',
+
+              getLayoutParams: function(){
+                var self = this;
+                var layout = {
+                  columnClass: '',
+                  width: self.state.get('width') || self.$el.innerWidth() || DEFAULT_CHART_WIDTH,
+                  height: self.state.get('height') || DEFAULT_CHART_HEIGHT
+                };
+                return layout;
+              },
+
+              alterChart: function(chart){
+                var self = this;
+                chart
+                .x(function(d) {
+                  return `${summaryChart.title} ${d.x}`;
+                })
+                .y(function(d) {
+                  console.log(d);
+                  return d.y;
+                });
+                // we don't want labels to fill all the canvas.
+                if(self.series.length > 10){
+                  chart.showLegend(false);
+                }
+              },
+      });
+
+      var pieChart = new extendedPieChart({
+        model : self.dataset,
+        state : state,
+        el : "#summary-chart-" + i
+      });
+
+
+      pieChart.render();
+      //self.$('#summary-chart-' + i + ' .recline-nvd3').append('<p>'+chart.title+'</p>');
+
+      NV.utils.windowResize(pieChart.update);
+        });
       });
     },
 
@@ -236,8 +325,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       var self = this;
       self.infoItems.forEach(function (infoItem) {
 
-        console.log("I>>", $("#info-item-row").html(), infoItem);
-        var tpl = _.template($("#info-item-row").html());
+        console.log("I>>", $("#info-item").html(), infoItem);
+        var tpl = _.template($("#info-item").html());
         self.$('.dash-info-section').append(tpl(infoItem));
       });
     },
@@ -249,7 +338,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       self.renderSummaryCharts();
       self.renderInfoItems();
     },
-    
+
   });
 
   return Views;
