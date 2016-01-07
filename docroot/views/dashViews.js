@@ -161,7 +161,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
               return obj.name === choice;
               })[0].uuid;
          if (typeof chosen !== undefined) {
-           Backbone.history.navigate('#dash/detail/'+chosen, true);
+           Backbone.history.navigate('#detail/'+chosen, true);
        }
           console.log('clicck', chosen.uuid, choice, choices);
         };

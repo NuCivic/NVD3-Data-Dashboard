@@ -168,7 +168,9 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 	});
 
 	console.log('router', Router, AppRouter);
-  Backbone.history.start();
+  Backbone.history.start({
+     root: "/dashboard/"
+  });
 }, function (err) {
   console.log("[router]ERR", err);
 });
