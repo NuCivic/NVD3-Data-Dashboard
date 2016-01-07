@@ -204,6 +204,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         seriesFields: chart.fields,
         options: {
           showXAxis: false,
+          showYAxis: false,
           showValues: true,
           showControls: false
         }

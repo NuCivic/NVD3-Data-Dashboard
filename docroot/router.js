@@ -38,13 +38,12 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             seriesFields: [field],
             group: true,
             options: {
-            showXAxis: false,
-            showValues: true,
-             tooltips: false,
-             showControls: false,
-             stacked : true,
-             margin: {top: 30, right: 20, bottom: 50, left: 250},
-             barColor: barColors
+              showXAxis: false,
+              showYAxis: true,
+              tooltips: false,
+              showControls: false,
+              stacked : true,
+              barColor: barColors,
             }
           });
           states.push(state);
