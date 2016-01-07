@@ -202,7 +202,11 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         group : true,
         xfield : 'name',
         seriesFields: chart.fields,
-        options: { showValues: true, showControls : false }
+        options: {
+          showXAxis: false,
+          showValues: true,
+          showControls: false
+        }
       });
 
       // Override the template and the default layout params.
