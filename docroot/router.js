@@ -38,7 +38,8 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             seriesFields: [field],
             group: true,
             options: {
-             showValues: true,
+            showXAxis: false,
+            showValues: true,
              tooltips: false,
              showControls: false,
              stacked : true,
