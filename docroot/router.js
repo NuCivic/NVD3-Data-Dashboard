@@ -13,12 +13,11 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 	console.log('[router] loaded 11');
   var Router = Backbone.Router.extend({
 		routes : {
-			'dash/comp(/)'      : 'compare',
-      'dash/detail/:id'   : 'detail',
+      '(/)': 'compare',
+      'detail/:id'   : 'detail',
       'static(/)'        : 'getStatic',
       '*path'            : 'getCompDash'
-		},
-
+    },
 
 		compare : function (queryString) {
 			var self = this;

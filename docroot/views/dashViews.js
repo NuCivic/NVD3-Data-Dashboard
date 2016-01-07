@@ -87,7 +87,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
           template:'<div class="recline-graph recline-nvd3">' +
                       '{{data}}' +
-                      '<div class="{{columnClass}} {{viewId}} recline-nvd3"style="display: block;">' +
+                      '<div class="{{columnClass}} {{viewId}} recline-nvd3" style="display: block;">' +
                         '<div id="{{viewId}}" class="recline-nvd3">' +
                             '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' +
                             ' height="{{height}}" width="{{width}}">' +
@@ -112,7 +112,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
           state: state,
           el: $('#bar-chart-'+i)
         });
-        this.$('#bar-chart-'+i).css('height', chartHeight + 'px');
+        this.$('#bar-chart-'+i).css('height', 'auto');
         discreteBar.render();
         NV.utils.windowResize(discreteBar.update);
       });
