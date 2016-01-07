@@ -275,8 +275,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
               showLabels: true,
               labelType: 'key',
               labelsOutside: true,
-              //title: summaryChart.title,
-              //titleOffset: 200,
               tooltips: false,
             }
           });
@@ -284,6 +282,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
       var extendedPieChart = PieChart.extend({
 
+        // Override template and remove row class.
             template:'<div class="recline-graph recline-nvd3">' +
                         '{{data}}' +
                         '<div class="{{columnClass}} {{viewId}} recline-nvd3"style="display: block;">' +
@@ -295,6 +294,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
                         '</div>' +
                       '</div> ',
 
+        // Override default params and remove columnClass.
               getLayoutParams: function(){
                 var self = this;
                 var layout = {
@@ -305,20 +305,9 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
                 return layout;
               },
 
-              alterChart: function(chart){
-                var self = this;
-                chart
-                .x(function(d) {
-                  return `${summaryChart.title} ${d.x}`;
-                })
-                .y(function(d) {
-                  console.log(d);
-                  return d.y;
-                });
-                // we don't want labels to fill all the canvas.
-                if(self.series.length > 10){
-                  chart.showLegend(false);
-                }
+              x: function(record, serie) {
+                console.log(serie);
+                return summaryChart.title;
               },
       });
 
