@@ -253,7 +253,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       });
 
       discreteBar.render();
-      self.$('#compare-chart-'+i).css('height', chartHeight + 'px');
+      self.$('#compare-chart-'+i).css('height', 'auto');;
       NV.utils.windowResize(discreteBar.update);
     });
   },
