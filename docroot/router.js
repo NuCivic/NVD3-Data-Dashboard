@@ -27,15 +27,41 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 				var params = self.urlDecodeParams(self.parseQueryString(queryString));
         var model = new Recline.Model.Dataset(params);
         // @@ confParam - seriesFields - what fields do we want to compare
-        var seriesFields = ['total_students', 'extracurricular_count', 'sports_count', 'courses_count', 'graduation_rate_2014', 'ontrack_year1_2014'];
+        // Add userfriendly name.
+        var seriesFields = [
+          {
+            field: 'total_students',
+            human: 'TOT. STUDENTS',
+          },
+          {
+            field: 'extracurricular_count',
+            human: 'EXTRA. ACTIVITIES',
+          },
+          {
+            field: 'sports_count',
+            human: 'SPORTS',
+          },
+          {
+            field: 'courses_count',
+            human: 'AP COURSES',
+          },
+          {
+            field: 'graduation_rate_2014',
+            human: 'GRAD. RATE',
+          },
+          {
+            field: 'ontrack_year1_2014',
+            human: 'ON TRACK 2014',
+          },
+        ];
 
         // @@todo - move this to the view!
         var states = [];
 
-        seriesFields.forEach(function (field) {
+        seriesFields.forEach(function (seriesField) {
           var state = new Recline.Model.ObjectState({
             xfield: 'name',
-            seriesFields: [field],
+            seriesFields: [seriesField.human],
             group: true,
             options: {
               showXAxis: false,
@@ -53,6 +79,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
           q : params,
           metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
           title : "School Comparison Dashboard",
+          seriesFields : seriesFields,
           states : states,
           barColors : barColors,
           $el : $("#region-main"),

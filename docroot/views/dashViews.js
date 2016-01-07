@@ -82,6 +82,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
         if (!$('#bar-chart-'+i).length) {
           self.$('#dash-charts').append('<div class="nvd3-dash-bar-chart col-xs-12 col-md-6" id="bar-chart-'+i+'"></div>');
         }
+
         // Override 'columnClass' variable in the base MultiBarHorizontalChart class.
         var extendedMultiBarHorizontalChart = MultiBarHorizontalChart.extend({
 
@@ -104,6 +105,16 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
               height: self.state.get('height') || DEFAULT_CHART_HEIGHT
             };
             return layout;
+          },
+
+          y: function(record, serie){
+            var y;
+            self.seriesFields.forEach(function (seriesField) {
+              if (serie == seriesField.human) {
+                y = record[seriesField.field];
+              }
+            });
+            return y;
           }
         });
 
