@@ -149,21 +149,17 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     addEventListeners : function () {
       self = this;
-      console.log("addEventListeners");
       $('body').click('.chosen-choices .search-choice', function (e) {
-      console.log('target', $(e.target));
-      if ($(e.target).is('span')) {
-          console.log($(e.target).text().trim());
+        if ($(e.target).is('span')) {
           e.preventDefault();
           var choice = $(e.target).text().trim();
           var choices = self.choices.get('schools');
           var chosen = choices.filter(function ( obj ) {
-              return obj.name === choice;
-              })[0].uuid;
-         if (typeof chosen !== undefined) {
-           Backbone.history.navigate('#detail/'+chosen, true);
-       }
-          console.log('clicck', chosen.uuid, choice, choices);
+            return obj.name === choice;
+          })[0].uuid;
+          if (typeof chosen !== undefined) {
+            Backbone.history.navigate('#detail/'+chosen, true);
+          }
         };
       });
     },
@@ -174,7 +170,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
   Views.detailView = BaseViews.baseView.extend({
     initialize : function (opts) {
       //umm...
-      console.log("[detail]", opts);
       this._init(opts);
     },
 
@@ -335,10 +330,14 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       var record = self.dataset.records.at(0);
       if (typeof record != 'undefined') {
         self.infoItems.forEach(function (infoItem) {
-          console.log(infoItem);
+          var recordField = record.get(infoItem.field);
+          if (typeof recordField === 'undefined') {
+            recordField = "N/A";
+          }
+          var variabletpl = {title: infoItem.title, field: recordField};
           var tpl = _.template($("#info-item").html());
           self.$('.dash-info-section')
-          .append(tpl({title: infoItem.title, field: record.get(infoItem.field)}));
+          .append(tpl(variabletpl));
         });
       }
     },
