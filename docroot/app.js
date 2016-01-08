@@ -4,7 +4,7 @@ requirejs.config({
 			deps : ['recline', 'backbone', 'd3', 'lodash', 'lodash.data'],
 			exports : 'rv3'
 		},
-		'pieChart' : {
+    'pieChart' : {
 			deps : ['rv3']
 		},
     'multiBarHorizontalChart' : {
@@ -30,10 +30,11 @@ requirejs.config({
 		'nvd3' : {
 			exports : 'nv'
 		},
-    'chosenSelect' : { deps : ['jquery'] }
+    'chosenSelect' : { deps : ['jquery'] } 
 	},
 	paths : {
-		'jquery' : 'lib/jquery',
+    'text' : 'lib/text/text',
+    'jquery' : 'lib/jquery',
 		'rv3' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.base',
 		'pieChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.pieChart',
 		'multiBarHorizontalChart' : 'lib/recline.view.nvd3.js/src/recline.view.nvd3.multiBarHorizontalChart',
@@ -45,12 +46,12 @@ requirejs.config({
 		'lodash' : 'lib/lodash',
 		'lodash.data' : 'lib/lodash.data.min',
 		'nvd3' : 'lib/nvd3/build/nv.d3.min',
+    'templates' : 'templates.html',
     'chosenSelect' : 'lib/chosen_v1.4.2/chosen.jquery.min'
 	}
 });
 
-require(['recline', 'rv3', 'pieChart', 'router'], function (recline, rv3, pieChart) {
-
-console.log("App - final", rv3);
+require(['text!templates', 'backbone', 'config', 'jquery', 'router'], function (Tpl, Backbone, Config, $) {
+  $(Config.el).append(Tpl);
+  Backbone.history.start({route: Config.route});
 });
-

@@ -1,0 +1,53 @@
+<!-- Stylesheets -->
+<link rel='stylesheet' type='text/css' href='assets/css/style.css'/>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css" type="text/css" >
+<link rel='stylesheet' type='text/css' href='lib/recline.view.nvd3.js/css/style.css'/>
+<link rel='stylesheet' type='text/css' href='lib/recline.css'/>
+<link rel='stylesheet' type='text/css' href='lib/nvd3/build/nv.d3.min.css'/>
+
+
+<!-- HEY!! Don't pollute the global namespace. Add scripts tap app.js via requirejs!! -->
+<!-- We have to load mustache like this because it's stupid -->
+<script data-main="app.js" src="lib/require.js"></script>
+
+<!-- our app containers -->
+<div id="region-top">
+</div>
+<div id="region-main" class="grid"></div>
+<div id="region-bottom"></div>
+<div id="my-gdocs"></div>
+<div id="footer"></div>
+
+
+<!-- Templates -->
+<script type="text/template" id="dash-template">
+    <h2><%= title %></h2>
+    <div id="dash-head"></div>
+    <div id="dash-select"></div>
+    <div id="dash-charts" class="row"></div>
+</script>
+
+<script type = "text/template" id="dash-detail-template"></div>
+    <h2><%= title %></h2>
+    <div class="dash-topmatter row"><%= topmatter %></div><hr />
+    <div class="dash-section row" id="compare-charts-container"></div><hr />
+    <div class="dash-section row" id="summary-charts-container"></div><hr />
+    <div class="dash-section dash-info-section row" id="dash-detail-info-section"></div><hr />
+</script>
+
+<script type="text/template" id="chosen-select-widget">
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+    <h3>Select <%= selectionType %></h3>
+    <select class="chosen-select" style="width: 100%" id="search-select" multiple>
+        <% _.each(choices, function (choice) { %>
+            <option value="<%= choice.uuid %>" data-uuid="<%= choice.uuid %>"><%= choice.name %></choice>
+        <% }); %>
+    </select>
+</script>
+
+<script type="text/template" id="info-item">
+    <p class="info-item col-xs-12 col-md-6">
+        <label class="info-item-title"><%= title %></label>
+        <span class="info-item-field"><%= field %></span>
+    </p>
+</script>
