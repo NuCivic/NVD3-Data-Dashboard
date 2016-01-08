@@ -17,7 +17,7 @@ body {
 
 #dash-select .chosen-container {
   display: inline-block;
-  width: 90% !important;
+  width: 100% !important;
   float: right;
   font-size: 18px;
 }
@@ -45,23 +45,5 @@ body {
 
 #region-main {
   width: 80%;
-  margin: 0 auto;  
-}
-
-[class*='col-'] {
-  float: left;
-}
-
-.col-1-2 {
-  width: 50%;
-}
-
-.grid:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.nvd3-dash-bar-chart {
   margin: 0 auto;  
 }
