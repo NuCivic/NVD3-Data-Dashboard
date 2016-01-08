@@ -53,5 +53,5 @@ requirejs.config({
 
 require(['text!templates', 'backbone', 'config', 'jquery', 'router'], function (Tpl, Backbone, Config, $) {
   $(Config.el).append(Tpl);
-  Backbone.history.start({route: Config.route});
+  Backbone.history.start();
 });

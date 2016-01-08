@@ -9,7 +9,7 @@
  *	});
  *
  **/
-define(['backbone', 'recline'], function (Backbone, Recline) {
+define(['backbone', 'recline', 'config'], function (Backbone, Recline, Config) {
 	console.log('[router] loaded 11');
   var Router = Backbone.Router.extend({
 		routes : {
@@ -76,14 +76,14 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 				var View = new Views.compView({
           q : params,
-          metaDataUrl : "/schooldashboard",
+          metaDataUrl : Config.apiBaseUrl + "/schooldashboard",
           title : "School Comparison Dashboard",
           seriesFields : seriesFields,
           states : states,
           barColors : barColors,
           $el : $("#region-main"),
           tpl : '#dash-template',
-          apiBaseUrl : '/schooldashboard?schools='
+          apiBaseUrl : Config.apiBaseUrl + '?schools='
         });
 
 				View.render();
@@ -97,7 +97,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             $el : $("#region-main"),
             tpl : '#dash-detail-template',
             // @confParam - base url for item query
-            apiBaseUrl : '/schooldashboard?schools=',
+            apiBaseUrl : Config.apiBaseUrl + '/schooldashboard?schools=',
             itemId : id,
             // @@confParam - string / the identifier for the record - used in  page title
             itemTitleField : 'name',
