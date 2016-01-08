@@ -132,7 +132,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
     renderSelect : function (choices){
       var self = this;
       require(['views/selectView'], function (View) {
-  var selectView = new View({ selectionType : 'Schools', choices : choices});
+        var selectView = new View({ selectionType : 'Schools', choices : choices});
       });
     },
 
@@ -206,7 +206,8 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       _.each(self.compareCharts, function (chart, i) {
         // Add new elements only if they do not exists
         if (!$('#compare-chart-'+i).length) {
-          self.$('#compare-charts-container').append('<div class="nvd3-dash-bar-chart col-xs-12 col-md-6" id="compare-chart-'+i+'"></div>');
+          self.$('#compare-charts-container')
+          .append('<div class="nvd3-dash-bar-chart col-xs-12 col-md-6" id="compare-chart-'+i+'"></div>');
         }
 
       var state = new Recline.Model.ObjectState({
@@ -263,8 +264,10 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
       require(['pieChart'], function (PieChart) {
         self.summaryCharts.forEach(function (summaryChart, i) {
 
-          self.$('#summary-charts-container').append('<div class="nvd3-dash-pie-chart col-xs-12 col-md-6" id="summary-chart-'+i+'"></div>');
-          console.log('pie', self.dataset);
+          if (!$('#summary-chart-'+ i).length) {
+            self.$('#summary-charts-container')
+            .append('<div class="nvd3-dash-pie-chart col-xs-12 col-md-6" id="summary-chart-' + i + '"></div>');
+          }
 
           var state = new Recline.Model.ObjectState({
             xfield : 'pct_stu_safe_2014',
@@ -272,7 +275,7 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
             options : {
               donut : true,
               showLegend: false,
-              showLabels: true,
+              showLabels: false,
               labelType: 'key',
               labelsOutside: true,
               tooltips: false,
@@ -304,11 +307,6 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
                 };
                 return layout;
               },
-
-              x: function(record, serie) {
-                console.log(serie);
-                return summaryChart.title;
-              },
       });
 
       var pieChart = new extendedPieChart({
@@ -319,7 +317,12 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
 
       pieChart.render();
-      //self.$('#summary-chart-' + i + ' .recline-nvd3').append('<p>'+chart.title+'</p>');
+
+      // Add the title for the chart.
+      // I tried to use the chart legend and/or title but failed to get it to
+      // look right.
+      self.$('#summary-chart-' + i)
+      .append('<p>' + summaryChart.title + '</p>');
 
       NV.utils.windowResize(pieChart.update);
         });
@@ -328,12 +331,16 @@ define(['backbone', 'views/baseViews', 'jquery', 'recline', 'multiBarHorizontalC
 
     renderInfoItems : function () {
       var self = this;
-      self.infoItems.forEach(function (infoItem) {
-
-        console.log("I>>", $("#info-item").html(), infoItem);
-        var tpl = _.template($("#info-item").html());
-        self.$('.dash-info-section').append(tpl(infoItem));
-      });
+      // Assume we are getting only one record.
+      var record = self.dataset.records.at(0);
+      if (typeof record != 'undefined') {
+        self.infoItems.forEach(function (infoItem) {
+          console.log(infoItem);
+          var tpl = _.template($("#info-item").html());
+          self.$('.dash-info-section')
+          .append(tpl({title: infoItem.title, field: record.get(infoItem.field)}));
+        });
+      }
     },
 
     render : function () {

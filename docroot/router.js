@@ -76,14 +76,14 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 
 				var View = new Views.compView({
           q : params,
-          metaDataUrl : "http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard",
+          metaDataUrl : "/schooldashboard",
           title : "School Comparison Dashboard",
           seriesFields : seriesFields,
           states : states,
           barColors : barColors,
           $el : $("#region-main"),
           tpl : '#dash-template',
-          apiBaseUrl : 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools='
+          apiBaseUrl : '/schooldashboard?schools='
         });
 
 				View.render();
@@ -97,7 +97,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
             $el : $("#region-main"),
             tpl : '#dash-detail-template',
             // @confParam - base url for item query
-            apiBaseUrl : 'http://ncdkanrny2efmnpl.devcloud.acquia-sites.com/schooldashboard?schools=',
+            apiBaseUrl : '/schooldashboard?schools=',
             itemId : id,
             // @@confParam - string / the identifier for the record - used in  page title
             itemTitleField : 'name',
@@ -126,17 +126,27 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
               },
            ],
            infoItems : [
-            { field: 'quality_review_year',
-              title: 'Quality Review Year' },
-            { field: 'qr_teacher_collaboration',
-              title: 'Quality Review Collaboration' },
-           { field: 'qr_high_expectations',
-              title: 'Quality Review High Expectations' },
-           { field: 'qr_assessing_student_learning',
-              title: 'Quality Review Student Learning' },
-           { field: 'qr_instruction',
-              title: 'Quality Review Instruction' }
-          ]
+             {
+               field: 'quality_review_year',
+               title: 'Quality Review Year'
+             },
+             {
+               field: 'qr_teacher_collaboration',
+               title: 'Quality Review Collaboration'
+             },
+             {
+               field: 'qr_high_expectations',
+               title: 'Quality Review High Expectations'
+             },
+             {
+               field: 'qr_assessing_student_learning',
+               title: 'Quality Review Student Learning'
+             },
+             {
+               field: 'qr_instruction',
+               title: 'Quality Review Instruction'
+             }
+           ]
           });
           View.loadPage();
       });
@@ -168,7 +178,7 @@ define(['backbone', 'recline'], function (Backbone, Recline) {
 	});
 
 	console.log('router', Router, AppRouter);
-  Backbone.history.start();
+  Backbone.history.start({root: "/dashboard/"});
 }, function (err) {
   console.log("[router]ERR", err);
 });

@@ -30,7 +30,7 @@ requirejs.config({
 		'nvd3' : {
 			exports : 'nv'
 		},
-    'chosenSelect' : { deps : ['jquery'] } 
+    'chosenSelect' : { deps : ['jquery'] }
 	},
 	paths : {
 		'jquery' : 'lib/jquery',
